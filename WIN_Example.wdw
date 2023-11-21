@@ -1,0 +1,397 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : WIN_Example
+ major_version : 28
+ minor_version : 0
+ type : 2
+ description : ""
+ subtype : 0
+window :
+ name : WIN_Example
+ identifier : 0x2017f94501ad1a77
+ internal_properties : CAAAAAgAAACh4bVRKm5tWpSKdSBaDFm0hQ4Vx0fjZwQ2S//ACu1mZB7i1kIsXFavU+gGxQkXfokgnjbEf/Sdw+ZhgpEMKlq4wUF23GZVj3j52BBR09VQuNYmiMZnPRqpnQq0m2iF/iaKFYJ0Sfrc9LAzsLUXRD0Ru/uvjNA/NfSK8rm/fteMHt2LA9P9AFnZfFbQO3OM/8otSo03XR4nZL6V8F5iycZQ8K9WqOVyoX8U3+kyrSq8Y3jVYbaOVj41N5V9E8TiDsiFwlnaBDYqdafzd6Y38qK2cQUqwXGwEdLu3YG9b0sniUIQg5yhzpVtf5Q83NLi+lyY8x1v5KEZWD4+gbnpkGPF77TYK2zEsTC0RsSmU68/2GlDBvGBjlHgtWziDIxozZelswUV9425WbBGfA8zdOVOzkHLQJvbft/BMMFcgDv0Q/BcVGIJFX7B3viq5eTBXDLNWbU2JeDQKWEFDW/gr9itNfR112KTnKvb1QyX2sMNT9Twp9fPd9kOY/u1MstnaJVQfpjwNXUNbrbSXXYxi/LZCmzf3OX5OYMnqVDkbGLODtM9uQVYFeQzIkz1rY1VFo496XyqGaA5vCqbcpjPfvw82XvWzv7KMg00NUAtqM39w1jEBMXANETNO24T2dQf+a/eiYhlJAi5uZo+Cff0hxi3+oTglCOMshEGwKQfyc9LuTIi/+6Tu0s4AmD7zRTPanuGYs0YRGl7BvPxPTimpo9QcTV11O8MvG6mugaAMA0n68bxYHrxUwZvO+R8sWM06irRucDB7g62trQG/VO5bkZKul7FxCiYxX3HLcm6O0VWq79cgiQUyLQVInOjGBiNBKIJgQsS3NCLDA6ArbV4aJuuow==
+ properties :
+  x : 120
+  y : 50
+  width : 484
+  height : 236
+  widthClient : 482
+  heightClient : 204
+  widthMin : -4
+  heightMin : 7
+ controls :
+  -
+    name : BTN_IMPORT
+    identifier : 0x2017f94501ae1a77
+    internal_properties : CAAAAAgAAABETMuD3/guqTQlxJw4d2TYm2+l3aeVGnh8WrFdK9RommIQv2jaVwKsU0PThGVO87gGEpZD+toTrscZRx52Dl0Rkp0hbqShKNKHJsLhPYxtQDZFa+mXeJaHOOIVNcHN18S1DMQaNVk4Wgpg9rF1euSHWawsYWa0vGz3VvuCdvLUZHLbMQuVhnz+l3mN+VQy6NF41QaVbar2Uf2PR4VL6/ZcKbtdFCsAyvaJ6T1a7Qn2NWJhk7af38LWa9vnJzRDTbfA+pxCesqLXj+OSPShCYb4rWoNyI/M6psbShHb8fnojJ/eiBS5Qb7oLa54S16GLSbVByJurH6OCRKSupDde4iT0vB3dW4t9e2S/y6LiWzWklKEbBPngJHi/2encK/GH7T3taBaJh4GODsnh2MEGPNNgd5QHtl0Xf2qK69KhJpKuiSzey7NaXznDZaxGRgnrOHAmC6dbkbubMsTv9/6KdZtLfsM/8Y33/CSxFmFFgO3mjKuwo2okcMfuKe6mZyP5Di24ALcQsYsBMLUOVExcXCTv5x23EQBImvrLpmWPvIMoVZkJR7kPgmyfaXfChOYrcR/Imf9J2pdFAwGB/RVl4TqyLqR8YGn3OU1D718EwbYbMzeU4arGocRTQ5LTDTfA+jn+zDsP6XvOORsISB3bRXWoOE130CfGkOU2WwIvLD6Svx2nNg+gJSNL71Ww57zbY3QRoFpmnmYs61IZyB7tDLLIEi+w1k5sZTCFQF8t+WDBgi50AC4Ho8qrkEdlNuCssjyf0cagKZhpB/AmaSRySzblIPVHrZeuFZXfTw19HmnU0wO2h3aV3yCQDC3yRTe4l5AHpKMyfbnAOCmwj016cDV1c9mIjeAq1K+mGek4fSaa8H1psjFfT3uYPbR5jZB318XHjg4/hFquzx2ZDann1yCVIRWLtcZMEQ90zrsqCmT
+    properties :
+     x : 210
+     y : 174
+     width : 84
+     height : 24
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1+
+         
+         // If the user is not connected to the Internet
+         if InternetConnected() = False then
+         	
+         	if not InAutomaticTestMode then 
+         		Error( "You must be connected to Internet to use this feature" )
+         	end
+         	
+         	return
+         end
+         
+         // Check
+         if Contains( EDIT_ADDRESS, [ "http://", "https://" ] ) = False then
+         	
+         	if not InAutomaticTestMode then 
+         		Error( "Enter the full address of the page to import.", ...
+         		"e.g.: https://www.windev.com/windev/index.html" )
+         	end
+         	
+         	return
+         end
+         
+         HourGlass( True )
+         
+         sHost	is string
+         sObject	is string
+         
+         // Path of the object
+         sObject	= URLExtractPath( EDIT_ADDRESS, urlResourcePath + urlResourceName + urlResourceExtension )
+         sHost	= URLExtractPath( EDIT_ADDRESS, urlProtocol + urlDomain )
+         
+         // Import the specified page
+         clImport is HTMLImport( sHost, EDTDIR ) 
+         if not ErrorOccurred then
+         	
+         	// Import page 	
+         	clImport.Import( sObject, "", ( sURL ) => {
+         	// Update caption with imported URL
+         	STC_DOWNL = sURL 
+         	} )
+         	
+         	// Reset
+         	STC_DOWNL = ""	
+         	UnGrayButton()
+         	
+         	HourGlass( False )
+         	if not InAutomaticTestMode then 
+         		if YesNo( "The HTML page was successfully imported!", "Do you want to view the page now ?" ) = Yes then
+         			BTN_VIEW.ExécuteTraitement( trtClick )
+         		end
+         	end
+         else
+         	
+         	STC_DOWNL = ""	
+         	UnGrayButton()
+         	
+         	HourGlass( False )	
+         end
+        type : 18
+      -
+        type : 161
+        enabled : false
+  -
+    name : EDIT_ADDRESS
+    identifier : 0x2017f94501af1a77
+    internal_properties : CAAAAAgAAACkoMMpjtwJHTWIG7bIC3usBIuBiGQJZIj/TzbDBK/bzMbdJebVQcROKXf76kgkea1hAq/cZgwdfvYO613JVsNLIF1Aui8E/tNU4d2yLg1uAycqQqveXed2CxMdf4QUkYDpB/hwXmhOsjrKtOOKJ+pp5LO5JxWo+hXsLj6LymM5odL/7bsWB6Ll40z2Kmz+0531NssuZXaVrZZBqy4ymQikj8CkIkdKVlc0tV8uMU8oX6SFNpyLKsZw+3aK2PGvzGVL9VerqPy26UnRFNXKfyqGm80VD/wvzRrDn3KZjeRp8Flk+5B6pM8/KlqOPbBnkOqw7ZJI+H9rsuWRnefanHJkpUl4vaVszeq26WlxvwzeaFUuWfwsRjWkNMeT9XHGP2W8k80SiymDJp+ZyJuwVwkdJfEchGK3q8qmNz3CSNhXcZQ9lTb1CNQxp7woYsSIYmue+X8rdYPhn3g4dCFlRl8/2/7t0fpP+/I2pQ8hD992fEV8FzgrFa/YikZ04o3tTkfSSAkkTtLTgHVdxy7U82u088biu6PQAwDCp4mhjaTtbcBR5nAKsR7Jqck9wMFK/BGHjOLVoolOphHDZH19LuBuhRD760/yVgUD+i6J/+dflF/OTvxsHfn0AcGZoXPWoEuIr7TkR1mCsdpjNNIz0kqGEH/ns+Q89xN1BWc3ShYpCs4vV1KfTHt+vthgP0WkLDrZRHUzdDutPRXZZYfDxwTg3EN/05V9RLzx5LbcD0bgkEYPe5f8CZtW9dozIURPrf3WXDxcNWAh2bsLCCpHtsb0IRQEK1K7PLtqCuD/Zu4ApGFpbeRjwbeYAKjI5ocORgDrMVpuVKe65ZbGjqPUaPi7igCN15e767Iw0MagiQM79NEaFe0+dn7tE9iI4YwHQ9K8X6IH6XkaOlao89EAF1zcZxWiiyUzaI+THCBa8C3okkUFwTo+diBQ2eIW93xhOCIWG/gkXxyIQRkYdRHsU1UgwjPjVzHQC1Yc04OfsshfCG7m6HATDVzGdcIZYNFEm5mbZ5mBLjp2JOHrBjhYZlzZTchYz4vufvTXlm/SFAOh43MG47DhxWZxXBiUBu+Go5vyoet7y+maBFzNbTuAE3AlhIVlIkGULCWlDZuhyoYqjBfDg7Zqd1UsS/a31T0=
+    properties :
+     x : 10
+     y : 86
+     width : 421
+     height : 22
+    type : 2
+    code_elements :
+     type_code : 3
+     p_codes :
+      -
+        code : |1-
+         
+         UnGrayButton()
+        type : 16
+      -
+        type : 276
+        enabled : false
+      -
+        type : 277
+        enabled : false
+      -
+        type : 278
+        enabled : false
+  -
+    name : EDTDIR
+    identifier : 0x2017f94501b01a77
+    internal_properties : CAAAAAgAAAAsXv/QCv8cB4Bev4CSwzqypCHiHxEiI4ZgvawnyV/4vIv6bmB2PNlixD9e20F6nHN37aD/SOofgepwFpse7qCf+jThrIsMSdkFWQPmmXOE/WfpJCGx5c6sEQupCyafQXo/QtSGaYspNx04QTykChM447qt0gFvagBUs+FNmv3ELWAhaUCv7l6O2FEAAAnQ9vzbuQ4gBxLtAospqBNrfbDrvnM1Zm1N1x7CcnthXEwT8a6I4ux0m1tYxQW4Xi7GXIUF7IEudjWKHjUhSODL9tnQZBJoHYUVv2wN79Jy1qfBRlCKbuGemCugjRxtyZ4RxBGUFlsuVRI6ddN6BTNy58bAKAH5p9ScXvAa8gmpOWbX7oYGuWcrgQn578ENV+TcUKu3TgIv3+OD95+Z2CKnvRuNqXRDsTg38dqDoRoJHXummeHMOd170RCSCqDEDEoGTsBil0zcdTqRfAg37CkxQ6IE8M8uDsMIQ5RoR+f6RxJU/sEaAJYE50DxnASxgmTWTSzKNYZJsxOxb3Y8tXaPK40RLokC8FnXkmczI3Fzb5+gACNHvBLfuIOR4YWTHTh8zzKZ9uY2nKrohN5kBY2d/DeWGpxE9NnQSpxcH7NLLRUQhuimqY6UD3pGd5Dmpi2qO8tO5InMZYYOG/7em/nbb6qToRNipRFdkQWLLPoDobByNpVQG6GeKXN4G8FMD3gLZr800LP+HVpYmJ/Srm4GW3HflB02kI0oPRw+4I+dhVAoRsa4N++u5sw6FyQ0vJJUXlZepRGXe+mR+0ze+yWu4CPzLh5E4AYQ0oJ2OxCv35YxbSxST1XuguXGetARPSv5QnJNTI9hZD7ddYt0cTtCxRZygVje85HiLA59hL7wRVp3zXYUMUt+8UNtYPHscxf37mqemg6oTjWTkD0xuc0gZLLHwk0fuZsxGHifxlyf6/2nOdZtSpf6D0MePJAABbWAkfhCRVc7HrgBZrpnYViJbDl9U/1M2+m/YxxRa2HD3Nvlm1V51z+4PTgLQ3noQOJ0mhHGJDz0aHep1TJ0y8GvbSE4/n6B80+FM4RmomSE2qV41DMfeSZtd5EC6Kh28D2AM+TUMdNt6inMjEnBTKOobYz/a4EfCUW29NeX+LSY5geckRJ5vh9G5JMOPsZ4kqr499s7Ow==
+    properties :
+     x : 10
+     y : 116
+     width : 421
+     height : 22
+    type : 2
+    code_elements :
+     type_code : 3
+     p_codes :
+      -
+        type : 276
+        enabled : false
+      -
+        type : 277
+        enabled : false
+      -
+        type : 278
+        enabled : false
+  -
+    name : BTN_SEL
+    identifier : 0x2017f94501b11a77
+    internal_properties : CAAAAAgAAADdpC8T66SsVPrABMP7XPkAOuqUeWw3la6fliLhY//6mWK+b6srOfmBmtLGFn7mZCL1mfF4p59g/UBQnzd7UlR4elCLYr0ZmzvvuzxwTKx9w+zTJNsVfI8hAOUeS160q81c1K/4j0n47u5GUCEkp6Nt+OT+nh/Bd6mCGpSGjM9d8cJf1pE+FXLL1V9npuGk+F6R9oTuVyEO76Vn6ItF1IgSdBhUceHwCILdDHMxtGJYnqy2UYJLES+tvnJbqFhfDn6uEhqIrFYIal5UIMwem49l0dGC3FVqqfk7lSwT+aYBxZjah3TK7qfeXqMLwrWkLMW8PzCr8RHCwKDSdZqUQsXElCK0Bnld9nrFhJxXAa1x5ql0Hm6JGqWT7/3ixdWjAgilMN5+FOkmfYt01BSjrR0LZQx/fuB9Ko0cM9EogBWrNl3XgA8Ujz2HEkJW0Mo+6ppjqYFxXhvsUJ+cXLxxedpdviX6SWItpWKDERe37EkbTsvbl4cVkJtXhGFxLbBGPeixZMKTHFFpYuVEnf3glWXCZCWPE0uKDh+DQMTUAmuo17wwYrm2J3RZWICSzEFEqA+QD1Bk9Vj1MkiFlC3gVs1QA816TKiAuZSNVWgTkhlY0uoSWD+UgYQId3RVIj/1TLmxozVSpdSED4CiUDaCleEhdHOOdhuUgVLzi8eJPChQnpSV3B4/YZGzJr/uyVhgX1ITCv21go+Wf9/rT+LX0DAvtHRNDULXziaWtAo7+roiWqTaIuDIy6SO+nkru4tI/2g+vz8aDSXS82R2h6s2FJrRn+WVBbOMSYT0K6w/9qVxvC/kqPbk54qYt1MKYe3q2ivflcVbJpWTKLCh11Y94RTHEWXh3W23J9nlqoynZtAq
+    properties :
+     x : 443
+     y : 112
+     width : 30
+     height : 30
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1-
+         
+         sDirectory is string
+         
+         // Select a directory
+         sDirectory = fSelectDir(EDTDIR, "Directory picker", "Select the directory where the HTML page will be imported")
+         if sDirectory<>"" then 
+         	EDTDIR = sDirectory
+         end
+        type : 18
+      -
+        type : 161
+        enabled : false
+  -
+    name : STATIC1
+    identifier : 0x2017f94501b21a77
+    internal_properties : CAAAAAgAAACxq10DTky196M86Y0W2oUN987j5Z5sEjq7CLE9y6gtLbUigbZ3XGV2+CUrtARdyTqKRZO9kTvJ1wpBGmdkYOwpmNNdk9POVl3znnLR41DOiF5+xo503k43Q+oOoqDFukSXiP5wTOYYqp5ZYG2aW5+Thgr3NiUI2gYVWnh5FVlemPFvyLKF5WuFiXaaW0XaI2Mx8ihm6x4ABiT8DPwgAbvczmlA7kZs9MFAnxIZAJLO5LnJ7YD7fJ/EceLjHeY0oROJW64NwGkO45OER7QpyyDqMiExvZUrc+E9a1Uu3JGsSdTkCAr4yPIeRWTvuF3zRRnPT2YDY7F5qxggOnL0RrBrjKcxRdhtNtuPF24y+e3ZBDMnRToi2wXEg4AsdC0CSMqArAFTFz84u7VCCV9STfxDV3K+INv7Zo8CZyLDXZ72FQsSZd9JKrsKTQQZvRzza07C4FsctfCRiKdoP+2ztpi8wfPNhvYWwZRN7eSYkJh203AJPVn0joNk4lds6bbcQQEv4nzMJtT87udAhORdrZbyg/dS97KzmN9uMr8AHN+6TLJRCAA7RinP6xWiik7CVnTGsZqwlgRhHZHJaFQkS6j9t7VI93qupKNBTOF4fLo54jQQzG9Kf9BxPWOVa/oNcx0soE1I2ikbMV5pJUR7Pshkq4Q6tLJk7n3HTiFKhIWbAiWDg8MAeLOPJ8Syx9LDVFP1ejWbNV37p6BxN/0i8ApQqtE5hORQC4oKjHMqXK3RbHTyAtrmq9wzNhM3l6EUJ4VWEpGicEKN2uC0h8R9EBBXbsWeMFW8KHLf++GHemj+LMVSbe9kad7AqZhz2YFwwoIT0koQZN+ASeXuY/sd6ngewr7Zgwe2+M5mf6hLIr+XnezG0S2HrWm4KfDJc8MyY655n/0qqOL+J4gy7+AUZsYxCR0rGdD2Dv1VprG8ZOEjs9FrkO0+yJ7Mj8WbGIJXSTKNWfBY1Uhgl11jIcDbH742IgW3hC8Sj2+CcUO/tS2y1ez7HnCNUIAICEQz/OrF+hmoEvgHpENpLhatero6KWh6fB9QoKdLU+Fe2il0A0VeF99DguHMPzNiIod7qyTYt+oB+hLnfVWcG7Ilz1kIJG7hmXyCuMxaVKFLAxN6hfdW/7tzuH2X9vK/95Jnsh0OZuoOB88sM2LsEk8Ho9BetnyCE5oW0s7CAh5u3zSEwodc3wYgaNDnfJ0rVlrGSEaVWQVfsDlJZefGAGSiZpJ33fmHQngg9WwvOqw8ZW30AmU=
+    properties :
+     x : 10
+     y : 6
+     width : 463
+     height : 71
+    type : 3
+    code_elements :
+     type_code : 2
+     p_codes :
+      -
+        code : |1-
+         
+        type : 18
+  -
+    name : BTN_EXIT
+    identifier : 0x2017f94501b31a77
+    internal_properties : CAAAAAgAAAB7fR8VSOcNIb3DJNpGfsgCieXRdf998gK2uAceU+ObL8PIMWigfh21yvcZcOKNh6d5TtOokI8OLepwksTp1ta1vAQ7zFKGMj70LfrJ9dEH6y7NSlXFxpCcuTaNeJ1Kh4Mbn5Z/PILsvRDKY05IeYz6jdZNzo77B1y39mYgvWCvDL6c7w2b5/Yesz0Oh8cH8/qFPcYen0hjHNI++Zp11+03gDXzU0koSp13HESXbBMXIrWMlFEFk9+ur6/RKZtf9ERkc7m+q8h2KirtL4DdMM5sM3CFKh44HJzeJaxzd2rhwfoGzI8Wk7kZhTo518HHfptOuK7/ojsDa6X8RjSZFarB//okicrEHY6ls2X9c+da3hh3+boGSWnW131ewQzd634daC07k3wkZ67LM1ECLpLqXQpgJ59EbL/UoG8RGVpRttDdqkUS60QMvnTU4uXGCfaG+dXciATHVt7F1yN1yV1qVZKg0hNrOLUrqUOZVLRiHV1bK7cWRlZhEjsBKC1sJac5wEaPPTEXV3aVxlg83WOXD4aVdLj0fQZjGI9NgMXYF7AfVIpOhYGwlLaltpGmyKJl7a8xXZiyNlvV7zZ17givJ1kEimZFuB3pjukBKnzEmk6eT7Y2HFNCV8yzOdYEOzQXLi3Q5aXYAb1HQjrH3l6dbMLhIm/E+V3W2E/tKwmph1susQHLezo57zfsi42x5Zx/yxKO/E1Nidl7HWLG1TvO02ueJQ0uFdJzmbsEVIsdyrrc6nmFZY5Fi27POJuyGMOrersBTdQV5XVwSqrBZIz1KsZI6MdU7TzsBGe0D2v8F4p7HmO+jxfPn+MLESFZpwO3tSX0Iq4HdgQx6OcIb06wPmKVDp8DkLNsBE/vJMj8Sx2ozWC3Yf0uqihw0xRemeyyes6xjAo6R1wsyVKTH+GA1X1AwAKXC+MJTgeXFyQvn4PskDdzFV4=
+    properties :
+     x : 392
+     y : 174
+     width : 84
+     height : 24
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1-
+         
+         Close()
+        type : 18
+      -
+        type : 161
+        enabled : false
+  -
+    name : BTN_VIEW
+    identifier : 0x2017f94501b41a77
+    internal_properties : CAAAAAgAAAAgB2O46J8n4Mp+KloG42JQ1A7Qg6+prmI6zHqYI0fEHBU0hBKXyhXHd6aC1+csqScCW7ChuhYf79Ed5CjYfItwdGYACW6NqqZRicCHhQS25G2Ex4+A+VqDcx/kReOlPLYrXV2+CTrX6WwqFfBCrmWUO30A2nAaRwiSwgCjJEHmAdMDM+dRtLLgzQs3ywD87EciZEiyh+9rO5E34p49kYzPrUwg66JsrUCfPW7ehgrnkS2SqvURvBCZPl+1uDiX2VvllMO8jOj+pruUk9TBSTySPfRjrPschdzBVtdLsr5tV+30UjikrxCAmmNQPoNP7MdPKoKQMd+HiXjEBr3a0gual3eRcBYzQ968HqKz21pL3B6dTMV6lsRfAfjJ3obMYpGULxaraSuVNPGqHWscsjEsGOfm4bHZ6eXigpVQQ64IbBLT9VDaetCbZvaiSleMJ1sxo8hFB86TeyeHbNxZdp6sL2LhXfdzG9X+ElLA3VDiLeXa6XFlN69ftwQ9U0F/fa0CFpyzltlYC7TSXR7els/mc0GEcEXwYPsMtnRF5IBBb9pF8vttEKg0djnMhCMTJokD7WWgcL7tpW4c8JnwCwAAHyr1iERNVFag8js5ChYAXmUMXEOwv6Yn5RU7DhfCGGdAPO1gnAPybL5PtmJM0sgEYbML+1gbWPujnbxEpE1E5V4D3K1lmwGK7UwZXDI9+q2+mjuMiwsJiTSTcGWmzofnCWWChzaTOD6UIEtaTzBVONiv1kC9l0YQTTRTiA0NXIWB7NQozgdfOuooxg4FmOOZ5SUbVoFrICCB7Uqe5ZSocovFn9t9Qth+lqj6vcrB80y/NlZjpSl5FNBWQKi1caIOQSaYb8mQ27VwpblwInehw8hRIXwADvbTjPaSRbywBLRhSBVFYJ4EVV4aB1EEySxRwaGKwR/8b/4bLHVkmww=
+    properties :
+     x : 301
+     y : 174
+     width : 84
+     height : 24
+    type : 4
+    code_elements :
+     type_code : 4
+     p_codes :
+      -
+        code : |1-
+         
+         // Start a browser
+         ShellExecute( ObjectLocalURL() )
+        type : 18
+      -
+        type : 161
+        enabled : false
+  -
+    name : STC_DOWNL
+    identifier : 0x2017f94501b51a77
+    internal_properties : CAAAAAgAAAARit5hauj03OORr8Z53eh784d7S84j1WfJ1xWEW/lNOtbLnSSr0XynI1hyr4q+jpHr9hsLRh1QsxjA/f24b4Psi1o+M387gVqFiQtpGZHKrsHzc0KNuj4YcKSJWzx5TzEgAEqK2VBxRKKUKSxx7nGbdjF1qpWfSVF9hNdGufkqEcVvUentEsz0bi6T+CBO96E28embJxt/boqt9ay/hvo1FRdx2M6UPxfK4dClxTSFcgaRakVJTSx0zYjfKQ0wJqcaxqRLqPCuGCpkLg363eSBmH+7AZlhjgDFE5EJpiTDIz/ovD2uvyCQVaxWJMzdH4lj5HDIPRgmqzOo/cm62HTVwrfBz6SUgqZGS7L6zyKKYmRt36Hp9pXWB4nE1Wdjvdg8anRBKyuU9K/t/IZu9wml3r8H05vqE+P1sD/zgOAAHH31zpKllNcddqXbw2TmBso1y9COh5eA54L51yozlv0sSiknSOR3gXFzCwYaphHK6RB7gXyZaG14ruH1HQOK7IB8FPJt7vU=
+    properties :
+     x : 10
+     y : 145
+     width : 463
+     height : 20
+    type : 3
+    code_elements :
+     type_code : 2
+     p_codes :
+      -
+        code : |1-
+         
+        type : 18
+ menu :
+  name : _Menu
+  identifier : 0x256704dd6653c240
+  internal_properties : CAAAAAgAAACa7kz9lqrRAUqNoOJ8KikYLgV8JzLXqT+YQrsZByAuACtNCeFBWjsuZNEf8oedMg70c3pCFkRoTaUoJ/ZgrMt8LBdF8ZzvluuBYXZA5vmykz7dGkEYuVK2ade+hIN0o2/USJD/JC2qacFN7SnxSryOJo24xmfjWUMAYhGXn+Lfg10B0Nl+IWQUI6e3hUnl0LHuT5mlydH7UyH/67KBBMx9PvmIEF/vO+YewbIlxwclZvR0VLi7c9KSIR1gwFBP27JjoLuC6W5zqu6XJ9SmGpSBktQaZe0XRhqETPWX/w==
+  options : []
+ languages :
+  - en-GB
+ popup_menus : []
+ message_bar :
+  internal_properties : CAAAAAgAAAC5zMdtF6+B1igmPi+grS4DlAOi9/SVP7v/iuFxtDNB5ErRTXh6VIBo2aUiLtwlxwG8+Xddpw8X44cVKyLym7aitqZQ0MGdJX6VhZ2bVWuxOtMEl4vfMda9/XtEeVwLmqk=
+ actionbar : {}
+ code_elements :
+  internal_properties : CAAAAAgAAAD19QQziyWNy/NkjEM4V0WLZ/mU+JPOuKe2EzXixqJnElkGwGtYCme6szLSrfO6phJZxrg1tx1/drji/0dNWoYo2y3AgxaWDar2Rga7aKWIM+7jcq22J3eMfkb9apvKL3JOQaSZp6ifXZ0szQIYfwFvQUmoUA4FgmXLH/QBjYd8WIy4ybW2gC6xWtbzANNnpOVcOp2M70cKX8bRtp9hvOpxLc3b5JLsk7bv46yiphisEytdqsYLHoEVzjvGS/bDRhf2K8cW2NgY5Dy5vqVH2er86sEYqOAvRr0ef8aF/S7gwBjN48RVnuQjCj8pyP5K2Gs7ic7PXrU1eTY2gXO5kI8BNzXWquhQ5wdfc7omNpfkxHlp+3Ddjlc1vmSzz17T3qX3Eds9GNUFob90RjwhpQfPian4oiOgJ9J6d344XGI/Jr6WTbpa9zf616VGas4=
+  type_code : 1
+  p_codes :
+   -
+     code : |1-
+      
+   -
+     code : |1+
+      
+      EDIT_ADDRESS	= "https://www.pcsoft.fr/windev/index.html"
+      EDTDIR			= fExeDir() + "\Import"
+      STC_DOWNL		= ""
+      
+      UnGrayButton()
+     type : 34
+   -
+     type : 180
+     enabled : false
+   -
+     type : 230
+     enabled : false
+   -
+     code : |1-
+      
+     type : 40
+   -
+     type : 11
+   -
+     type : 12
+   -
+     type : 17
+   -
+     type : 13
+  procedures :
+   -
+     name : UnGrayButton
+     procedure_id : 1159669503828105847
+     type_code : 14
+     code : |1-
+      procedure UnGrayButton()
+      
+      // Ungray the button if this object is found
+      if fFileExist( ObjectLocalURL() ) = False then
+      	BTN_VIEW..State = Grayed
+      else
+      	BTN_VIEW..State = Active
+      end
+     type : 458752
+   -
+     name : ObjectLocalURL
+     procedure_id : 1159669503828171383
+     type_code : 14
+     code : |1-
+      // Summary: Returns the local path corresponding to the specified URL
+      // Syntax:
+      //[ <Result> = ] URLLocalObject ()
+      //
+      // Parameters:
+      //	None
+      // Return value:
+      // 	ANSI string: Local path 
+      //
+      procedure ObjectLocalURL()
+      
+      sObject is string
+      
+      // Path of the object
+      sObject	= URLExtractPath( EDIT_ADDRESS, urlResourcePath + urlResourceName + urlResourceExtension )
+      
+      // Path of the object
+      sObject	= fSeparator( sObject, fSeparatorWindows )
+      
+      if Right( EDTDIR, 1 ) = "\" then
+      	sObject = EDTDIR[[ 2 to ]] + sObject
+      else
+      	sObject = EDTDIR + sObject
+      end
+      
+      return sObject
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : fenimport
+resources :
+ string_res :
+  identifier : 0x3bf230c32050e434
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text :
+      en-GB : "http://www.windev.com/windev/quick-overview-WD.html"
+     index : 0
+   -
+     text :
+      en-GB : "C:\\Import"
+     index : 1
+   -
+     text :
+      en-GB : You must be connected to Internet to use this feature
+     index : 2
+   -
+     text :
+      en-GB : Enter the full address of the page to import.
+     index : 3
+   -
+     text :
+      en-GB : "ex: http://www.windev.com/windev/summarywin.htm"
+     index : 4
+   -
+     text :
+      en-GB : The HTML page was successfully imported!
+     index : 5
+   -
+     text :
+      en-GB : Do you want to view the page now?
+     index : 6
+   -
+     text :
+      en-GB : Directory picker
+     index : 7
+   -
+     text :
+      en-GB : Select the directory where the HTML page will be imported
+     index : 8
+custom_note :
+ internal_properties : CAAAAAgAAAC68/W0/adbG0nFCRhrE42B5HRnbDzVHaz86sSQyxlBk7I=
+associated_test :
+ name : TEST_Example.wxt
+rad :
+ internal_properties : CAAAAAgAAABoAN7PLpwJW3EiA7WVZdCA5EwrCA1rvutcDHooMWKe

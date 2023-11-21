@@ -1,0 +1,554 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : HTMLImport
+ major_version : 28
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1017f947009020d0
+ internal_properties : CAAAAAgAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ code_elements :
+  type_code : 10
+  p_codes :
+   -
+     code : |1-
+      // HTML import class
+      HTMLImport is class
+      	
+      protected
+      	m_arrHosts		is array of strings
+      	m_sHost			is string
+      	m_sDirImport	is string
+      	m_arrUrls		is array of strings
+      	
+      end
+     type : 131072
+  procedures :
+   -
+     name : Constructor
+     procedure_id : 1159669512418762960
+     type_code : 27
+     code : |1-
+      // Summary: <specify the action of the procedure>
+      // Syntax:
+      // Constructor(<sHost> is string, <sDirImport> is string)
+      //
+      // Parameters:
+      //	sHost (ANSI string): <specify the role of sHost>
+      //	sDirImport (ANSI string) : <specify the role of sDirImport>
+      // Return value:
+      // 	None
+      //
+      // Example:
+      // Indicate an example.
+      //
+      procedure Constructor( local sHost is string, local sDirImport is string )
+      
+      // Stores the data
+      m_sHost			= sHost	
+      m_sDirImport	= sDirImport.UncompleteDir()
+      
+      // Creates the import folder
+      if fDirectoryExist( m_sDirImport ) = False then
+      	if not fMakeDir( m_sDirImport ) then
+      		Error()
+      	end
+      end	
+     type : 589824
+   -
+     name : Destructor
+     procedure_id : 1159669512418828496
+     type_code : 28
+     code : |1-
+      // Summary: <specify the action of the procedure>
+      // Syntax:
+      // Destructor ()
+      //
+      // Parameters:
+      //	None
+      // Return value:
+      // 	None
+      //
+      // Example:
+      // Indicate an example.
+      //
+      procedure Destructor()
+     type : 655360
+   -
+     name : Downloads
+     internal_properties : CAAAAAgAAABYA3VRhWOK0aCLH7ZuEG9qWoypHWU2me6hccKuimSVAVH5TTBMfAzvdksRaEYprD8E/33PcesJ9fcBWDFslOTfein5g+yjlkYFsp5r38Ua2RKF11wBJVfmKbEVDNrapkZY2QeFEMqa8LpwReQXmzzpTZj8aXbTd9Z3y0HXH/1Sb0rI
+     procedure_id : 1159669512418894032
+     type_code : 12
+     code : |1-
+      // Summary: Downloads a page
+      // Syntax:
+      //[ <Result> = ] Download (<sRelativeURL> is string, <sDestinationFile> is string)
+      //
+      // Parameters:
+      //	sRelativeURL (ANSI string): page URL relative to the host
+      //	sDestinationFile (ANSI string): Full path of destination file
+      // Return value:
+      // 	boolean: True if the page was downloaded, False otherwise
+      //
+      // Automatically process exceptions:   run CASE EXCEPTION:
+      //
+      procedure protected Downloads( local sRelativeURL is string, local sDestinationFile is string )
+      
+      sDirectory is string = fExtractPath( sDestinationFile, fDrive + fDirectory )
+      
+      if not fDirectoryExist( sDirectory ) then
+      	fMakeDir( sDirectory )
+      end
+      
+      oDownload is a httpRequest
+      oDownload..URL			= m_sHost + [ "/" ] + sRelativeURL
+      
+      // Defines the destination
+      oDownload..Destination	= sDestinationFile
+      
+      // Stores the imported URL
+      m_arrUrls.Add( oDownload..URL )
+      
+      // Runs the query
+      oDownload.Send()
+      return = ( not ErrorOccurred )
+      
+      case exception:
+      return False
+     type : 458752
+   -
+     name : Import
+     procedure_id : 1159669512418959568
+     type_code : 12
+     code : |1-
+      // Summary: Imports a document
+      // Syntax:
+      //Import (<sRelativeURL> is string [, <sDestinationDir> is string [, <pProgressCallback> is procedure]])
+      //
+      // Parameters:
+      //	sRelativeURL (ANSI string): URL the import
+      //	sDestinationDir (ANSI string - default value=""): Home directory for the import
+      // 	pProgressCallback (procedure - default value=0): Progress callback
+      // Return value:
+      // 	None
+      //
+      procedure Import( local sRelativeURL is string, local sDestinationDir is string = "", pProgressionCallback is procedure = Null )
+      
+      sPath		is string
+      sDirectory	is string	= sDestinationDir.URLDecode().UncompleteDir()
+      
+      // Checks whether the element was already imported
+      if m_arrUrls.Seek( asLinear, m_sHost + [ "/" ] + sRelativeURL ) > 0 then
+      	return
+      end
+      
+      // Callback
+      pProgressionCallback( sRelativeURL )
+      
+      // Absolute URL?
+      if sRelativeURL[ 1 ] = "/" then
+      	sRelativeURL	= sRelativeURL[ 2 to ]
+      	sDirectory		= m_sDirImport
+      end
+      
+      // Rebuilds the local path
+      if sDirectory = "" then
+      	
+      	// It is the first iteration, no current directory
+      	sPath = m_sDirImport + [ fSep ] + fSeparator( sRelativeURL ) 
+      else
+      	
+      	// If the path in the HTML page contains ..
+      	while sRelativeURL[ to 3] = "../"
+      		
+      		// Move one level up in the tree structure
+      		if sDirectory.Position( fSep ) > 0 then
+      			sDirectory = sDirectory[ to sDirectory.PositionOccurrence( fSep, 1, FromEnd ) - 1 ]
+      		end
+      		
+      		// Remove the "\"
+      		sDirectory				= sDirectory.UncompleteDir()
+      		
+      		// Remove the first "../"
+      		sRelativeURL[ to 3 ]	= ""
+      	end
+      	
+      	
+      	// Path of file to copy
+      	sPath = sDirectory + [ fSep ] + fSeparator( sRelativeURL )
+      end
+      
+      // File directory
+      sDirectory	= fExtractPath( sPath, fDrive + fDirectory )
+      
+      // Decode the HTML characters
+      sDirectory	= sDirectory.URLDecode()
+      
+      // Creates the import folder
+      if fDirectoryExist( sDirectory ) = False then
+      	if not fMakeDir( sDirectory ) then
+      		return
+      	end
+      end	
+      
+      // If the file is already found in local
+      if fFileExist( sPath ) then return
+      
+      // Fills the address
+      sRelativeURL = ["/"] + sRelativeURL
+      
+      // Downloads	
+      if not Downloads( sRelativeURL, sPath ) then
+      	Error("Unable to reach the server")
+      	return
+      end
+      
+      // Process the pages with extension only
+      if Lower( fExtractPath( sPath, fExtension )[[ 2 to ]] ) in ( "htm", "html", "php", "php3", "asp" ) then
+      	
+      	// Finds the dependencies
+      	FindObject( sPath, sDirectory, pProgressionCallback )
+      end  
+     type : 458752
+   -
+     name : FindObject
+     procedure_id : 1159669512419025104
+     type_code : 12
+     code : |1-
+      // Summary: Finds the dependencies of a page
+      // Syntax:
+      //FindObject (<sPath> is string, <sDirectory> is string [, <pProgressCallback> is procedure])
+      //
+      // Parameters:
+      //	sPath (ANSI string): Path of imported page
+      //	sDirectory (ANSI string): Current directory
+      // 	pProgressCallback (procedure - default value=0): Progress callback
+      // Return value:
+      // 	None
+      //
+      procedure protected FindObject( local sPath is string, local sDirectory is string, local pProgressionCallback is procedure = Null )
+      
+      // Loads the file content
+      htmlDoc is a htmlDocument <- HTMLOpen( sPath, fromFile )
+      
+      // Analyze HTML
+      BrowseObject( htmlDoc.html )
+      
+      	INTERNAL PROCEDURE BrowseObject( htmlRoot is a htmlNode )
+      	
+      	// Enumerate all tags 
+      	for each htmlTag of htmlRoot..ChildNode
+      		
+      		// Ignore all except tags
+      		if htmlTag..Type <> htmlNodeElement then
+      			continue
+      		end
+      		
+      		sBasecode	is string	= ""
+      		sObject		is string	= ""
+      		
+      		// Check if the element has a background style
+      		if htmlTag:style..Exist _and_ htmlTag:style [=] "background-image" then			
+      			__ImportObject()
+      			sObject = ""
+      		end		
+      		
+      		// According to the tag
+      		switch Lower( htmlTag..TagName )
+      			case "img"
+      				
+      				if htmlTag:src..Exist = False then continue
+      				
+      				// Read source
+      				sObject = htmlTag:src..Value
+      				__ImportObject()
+      				
+      			case "link"
+      				
+      				// Ignore redirections
+      				if htmlTag:rel..Exist _and_ htmlTag:rel..Value in ( "alternate", "canonical" ) then continue
+      				
+      				// Read URL
+      				sObject = htmlTag:href..Value
+      				__ImportObject()
+      				
+      			case "body"
+      				
+      				if htmlTag:background..Exist = False then continue
+      				
+      				// Retrieve background image
+      				sObject = htmlTag:background..Value
+      				__ImportObject()
+      				
+      			case "object"
+      				
+      				if htmlTag:src..Exist = False then continue
+      				
+      				// Retrieve source
+      				sObject = htmlTag:src..Value
+      				__ImportObject()
+      				
+      			case "input"
+      				
+      				// On image <input> only
+      				if htmlTag:type..Exist _and_ htmlTag:type..Value <> "image" then continue
+      				if htmlTag:src..Exist = False then continue
+      				
+      				// Retrieve source				
+      				sObject = htmlTag:src..Value
+      				__ImportObject()
+      				
+      			case "applet"
+      				
+      				if htmlTag:code..Exist = False then continue
+      				
+      				sObject = htmlTag:code..Value
+      				
+      				// Search for the codeBase attribute
+      				if htmlTag:codebase..Exist = False then
+      					sBasecode = htmlTag:codebase..Value		
+      				end
+      				
+      				// Retrieve source
+      				sObject = sBasecode + [ "/" ] + sObject						
+      				__ImportObject()
+      				
+      		end
+      		
+      		// Go down to child nodes
+      		BrowseObject( htmlTag )
+      		
+      			INTERNAL PROCEDURE __ImportObject()
+      			
+      			// Cleaning
+      			sObject = sObject.NoCharacter( """'()<>" )
+      			
+      			// Deletes the parameters from the URL
+      			nEnd is int = sObject.Position( "?" )
+      			if nEnd > 0 then
+      				sObject = sObject[[ to nEnd - 1 ]]				
+      			end
+      			
+      			// If there is still data to exploit
+      			if sObject <> "" then
+      				
+      				// Applet?
+      				if sBasecode <> "" then
+      					sObject = sBasecode + ["/"] + sObject
+      				end
+      				
+      				// A link?
+      				if sObject.Contains( [ "http://", "https://" ], IgnoreCase) then
+      					
+      					// Remove the http
+      					sObject = sObject.Replace( [ "http://", "https://" ], "", IgnoreCase )
+      					
+      					// If it's an external link
+      					if sObject.Contains( m_sHost, IgnoreCase) > 0 then
+      						sObject = sObject.Replace( m_sHost + ["/"], "", IgnoreCase )
+      					else
+      						return
+      					end
+      				end
+      				
+      				// Absolute relative
+      				if sObject [= "//" then	
+      					
+      					if sObject.Contains( m_sHost ) then
+      						sObject = ["/"] + Replace( sObject[[3 to]], m_sHost + ["/"], "", IgnoreCase )	
+      					end
+      					
+      					// If it always starts with //
+      					if sObject [= "//" then
+      						// It is an external URL
+      						m_arrHosts.Add( "//" + ExtractString( sObject[[3 to]], 1, "/") )
+      						return
+      					end
+      				end
+      				
+      				// Imports the dependency
+      				Import( sObject, sDirectory, pProgressionCallback )
+      			end
+      			
+      			end
+      		
+      	end			
+      	end
+      
+      // Adds the general host to the hosts
+      m_arrHosts.Ajoute( "//"  + m_sHost )
+      m_arrHosts.SupprimeDoublon()
+      
+      // Rebuild HTML
+      sHTML is string ANSI = HTMLBuildString( htmlDoc )
+      
+      // Replaces the paths in the HTML code
+      sHTML	= sHTML.Replace( m_arrHosts, "file://localhost/" + ( StringToUTF8( fSeparator( m_sDirImport, fSeparatorUnix ) ) ) + [ "/" ] )
+      sHTML	= sHTML.Replace( [ """/", "'/" ], """file://localhost/" + ( StringToUTF8( fSeparator(m_sDirImport, fSeparatorUnix ) ) ) + [ "/" ] )
+      
+      // Saves the modified code
+      fSaveText( sPath, sHTML )
+     type : 458752
+   -
+     name : FindTag
+     procedure_id : 1159669512419090640
+     type_code : 12
+     code : |1-
+      // Summary: Finds a tag and extracts its dependency
+      // Syntax:
+      //FindTag (<sHTML> is string, <sTag> is string, <sAttribute> is string, <sDirectory> is string [, <pProgressCallback> is procedure])
+      //
+      // Parameters:
+      //	sHTML (ANSI string): HTML code
+      //	sTag (ANSI string): Tag to find
+      //	sAttribute (ANSI string): Attribute to retrieve
+      //	sDirectory (ANSI string): Current directory
+      // 	pProgressCallback (procedure - default value=0): Progress callback
+      // Return value:
+      // 	None
+      //
+      procedure protected FindTag(sHTML is string, local sTag is string, local sAttribute is string, local sDirectory is string, pProgressionCallback is procedure = Null)
+      
+      nPos		is int
+      nEnd		is int
+      sObject		is string
+      sBasecode	is string
+      sEndChar	is string
+      
+      FOR ALL POSITION nPos of sTag in sHTML IgnoreCase
+      	
+      	// End position of tag
+      	nEnd	= Position(sHTML, ">", nPos)
+      	
+      	// Isolate the object
+      	sObject	= sHTML[[nPos to nEnd]]
+      	
+      	// If we find an applet, the directory is in the "codebase" attribute
+      	if sAttribute [=~ "code" _and_ sObject <> "" then
+      		
+      		// Find the attribute
+      		nPos = Position(sObject, "codebase=", 1, IgnoreCase)
+      		if nPos > 0 then
+      			// Remove the attribute	
+      			nPos += 9
+      		end
+      		
+      		// Retrieves the directory
+      		sBasecode	= NoSpace(sObject[[nPos to]])
+      		sBasecode	= NoCharacter(sBasecode[[to Position(sBasecode, ["""", "'"])]], """'")		
+      	else
+      		sBasecode = ""
+      	end
+      	
+      	// Ignores the redundancies
+      	if sTag = "link" _and_ True in (sObject [=] "rel=""alternate""", sObject [=] "rel='alternate'", sObject [=] "rel=alternate", ...
+      		sObject [=] "rel=""canonical""", sObject [=] "rel='canonical'", sObject [=] "rel=canonical") then
+      		continue
+      	end
+      	
+      	// Find the attribute
+      	nPos = Position(sObject, sAttribute, 1, IgnoreCase)
+      	if nPos > 0 then
+      		
+      		// Remove the attribute
+      		nPos += Length(sAttribute)
+      		
+      		if not NoSpace(sObject[[nPos to]])[[1]] in ("""", "'") then
+      			sEndChar = ">"
+      		else
+      			// The value of the attribute starts with "
+      			sEndChar = NoSpace(sObject[[nPos to]])[[1]]
+      		end
+      		
+      		// Isolate the attribute
+      		sObject = NoCharacter(NoSpace(sObject[[nPos to]]), """'")
+      		
+      		if not sAttribute ~= "url" then
+      			sObject = sObject[[to Position(sObject, sEndChar)]]
+      		else
+      			sObject = sObject[[to Position(sObject, ")")]]
+      		end
+      		
+      		// Cleaning
+      		sObject	= NoCharacter(sObject, """'()<>")
+      		
+      		// Deletes the parameters from the URL
+      		nEnd	= Position(sObject, "?")
+      		if nEnd > 0 then
+      			sObject = sObject[[to nEnd - 1]]				
+      		end
+      		
+      		// If there is still data to exploit
+      		if sObject <> "" then
+      			
+      			// Applet?
+      			if sBasecode <> "" then
+      				sObject = sBasecode + ["/"] + sObject
+      			end
+      			
+      			// A link?
+      			if Position(sObject, [ "http://", "https://" ], 1, IgnoreCase) > 0 then
+      				
+      				// Remove the http
+      				sObject = Replace(sObject, [ "http://", "https://" ], "", IgnoreCase)
+      				
+      				// If it's an external link
+      				if Position(sObject, m_sHost, 1, IgnoreCase) > 0 then
+      					sObject = Replace(sObject, m_sHost + ["/"], "", IgnoreCase)
+      				else
+      					continue
+      				end
+      			end
+      			
+      			// Absolute relative
+      			if sObject [= "//" then	
+      				
+      				if Position(sObject, m_sHost) > 0 then
+      					sObject = ["/"] + Replace(sObject[[3 to]], m_sHost + ["/"], "", IgnoreCase)	
+      				end
+      				
+      				// If it always starts with //
+      				if sObject [= "//" then
+      					// It is an external URL
+      					Add(m_arrHosts, "//" + ExtractString(sObject[[3 to]], 1, "/"))
+      					continue
+      				end
+      			end
+      			
+      			// Imports the dependency
+      			Import(sObject, sDirectory, pProgressionCallback)
+      		end
+      	end
+      end 
+     type : 458752
+  properties :
+   -
+     name : Host
+     identifier : 0x1017f947009120d0
+     type_code : 103
+     p_codes :
+      -
+        code : |1-
+         procedure public Host() : string
+         return m_sHost
+        type : 1966080
+      -
+        code : |1-
+         procedure public Host( local sValue is string )
+         m_sHost = sValue
+        type : 2031616
+     template_refs : []
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : Classe1
+resources :
+ string_res :
+  identifier : 0x1fa28e66002dc1c3
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
